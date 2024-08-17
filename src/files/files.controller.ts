@@ -11,6 +11,13 @@ import {
 import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
+import { File } from './entities/file.entity'; // Adjust the path according to your file structure
 
 @Controller('files')
 export class FilesController {
@@ -18,6 +25,27 @@ export class FilesController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file')) // FileInterceptor to handle file upload
+  @ApiOperation({ summary: 'Upload a file' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'File to be uploaded',
+    required: true,
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The file has been successfully uploaded.',
+    type: File,
+  })
+  @ApiResponse({ status: 500, description: 'Internal server error.' })
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     return this.filesService.uploadFile(file); // Call the service to handle file
   }
