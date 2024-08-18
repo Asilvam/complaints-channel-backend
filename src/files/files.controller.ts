@@ -36,6 +36,15 @@ export class FilesController {
     return this.filesService.uploadFile(file); // Call the service to handle file
   }
 
+  @Get('/mock')
+  async getMock() {
+    try {
+      return this.filesService.getMock();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   @Get(':id')
   async getFile(@Param('id') id: string, @Res() res: Response): Promise<void> {
     try {
@@ -48,4 +57,6 @@ export class FilesController {
       }
     }
   }
+
+
 }

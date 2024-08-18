@@ -6,6 +6,14 @@ import { Readable } from 'stream';
 import { FileUpload, FileDocument } from './entities/file.entity';
 import { Response } from 'express';
 
+export interface DynamicField {
+  name: string;
+  label: string;
+  type: 'boolean' | 'text' | 'email' | 'text-area' | 'array-text'; // Restricting to valid types
+  visible: boolean;
+  default: boolean | string;
+}
+
 @Injectable()
 export class FilesService {
   private readonly logger = new Logger(FilesService.name);
@@ -90,6 +98,25 @@ export class FilesService {
     } catch (error) {
       this.logger.error(error.message);
       throw new NotFoundException('File not found or could not be retrieved');
+    }
+  }
+
+  async getMock(): Promise<DynamicField[]> {
+    this.logger.log('Getting mock data');
+    try {
+      const dynamicField: DynamicField[] = [
+        { name: 'anonymousComplaint', label: 'Anonymous Complaint', type: 'boolean', visible: true, default: true },
+        { name: 'companyRelationship', label: 'Company Relationship', type: 'text', visible: false, default: true },
+        { name: 'email', label: 'Email', type: 'email', visible: true, default: true },
+        { name: 'incidentDetail', label: 'Incident details', type: 'text-area', visible: true, default: true },
+        { name: 'witnesses', label: 'Witnesses of the incident', type: 'text', visible: true, default: true },
+        { name: 'involved', label: 'Mentions those involved', type: 'text', visible: true, default: true },
+        { name: 'complaintType', label: 'Type of complaint', type: 'array-text', visible: true, default: true },
+      ];
+      return dynamicField;
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new NotFoundException('Mock data not found');
     }
   }
 }
