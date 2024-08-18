@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { FilesModule } from './files/files.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import { ComplaintModule } from './complaint/complaint.module';
+import { DynamicFieldModule } from './dynamic-field/dynamic-field.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true, // Makes ConfigModule available globally
     }),
+    ComplaintModule,
+    DynamicFieldModule,
   ],
   controllers: [AppController],
   providers: [AppService],
