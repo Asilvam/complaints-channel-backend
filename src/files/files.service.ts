@@ -9,7 +9,7 @@ import { Response } from 'express';
 export interface DynamicField {
   name: string;
   label: string;
-  type: 'boolean' | 'text' | 'email' | 'text-area' | 'array-text'; // Restricting to valid types
+  type: 'boolean' | 'text' | 'email' | 'text-area' | 'array-text' | 'file'; // Restricting to valid types
   visible: boolean;
   default: boolean | string;
 }
@@ -112,6 +112,7 @@ export class FilesService {
         { name: 'witnesses', label: 'Witnesses of the incident', type: 'text', visible: true, default: true },
         { name: 'involved', label: 'Mentions those involved', type: 'text', visible: true, default: true },
         { name: 'complaintType', label: 'Type of complaint', type: 'array-text', visible: true, default: true },
+        { name: 'attachments', label: 'Attachments', type: 'file', visible: true, default: true },
       ];
       return dynamicField;
     } catch (error) {

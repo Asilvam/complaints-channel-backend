@@ -4,8 +4,8 @@ import { UpdateComplaintDto } from './dto/update-complaint.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Complaint, ComplaintDocument } from './entities/complaint.entity';
 import { Model } from 'mongoose';
-import { EvidenceDocument } from "./entities/evidence.entity";
-import { CreateEvidenceDto } from "./dto/create-evidence.dto";
+import { EvidenceDocument } from './entities/evidence.entity';
+import { CreateEvidenceDto } from './dto/create-evidence.dto';
 
 @Injectable()
 export class ComplaintService {
@@ -14,8 +14,7 @@ export class ComplaintService {
   constructor(
     @InjectModel('Complaint') private complaintModel: Model<ComplaintDocument>,
     @InjectModel('Evidence') private evidenceModel: Model<EvidenceDocument>,
-
-    ) {}
+  ) {}
 
   create(createComplaintDto: CreateComplaintDto) {
     try {
@@ -28,7 +27,7 @@ export class ComplaintService {
     }
   }
 
-  createEvidence(createEvidence: CreateEvidenceDto){
+  createEvidence(createEvidence: CreateEvidenceDto) {
     try {
       this.logger.log('Creating new evidence');
       const newEvidence = new this.evidenceModel(createEvidence);
@@ -38,7 +37,6 @@ export class ComplaintService {
       throw new InternalServerErrorException('Error creating evidence');
     }
   }
-
 
   async findAll(): Promise<Complaint[]> {
     this.logger.log('Finding all registers');

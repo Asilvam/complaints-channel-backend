@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ComplaintService } from './complaint.service';
 import { CreateComplaintDto } from './dto/create-complaint.dto';
 import { UpdateComplaintDto } from './dto/update-complaint.dto';
-import { CreateEvidenceDto } from "./dto/create-evidence.dto";
+import { CreateEvidenceDto } from './dto/create-evidence.dto';
 
 @Controller('complaint')
 export class ComplaintController {

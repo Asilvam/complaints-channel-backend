@@ -1,7 +1,6 @@
 import { IsNotEmpty, IsString, IsEnum, IsOptional, IsDateString, IsObject } from 'class-validator';
 
 export class CreateComplaintDto {
-
   @IsNotEmpty()
   @IsString()
   title: string;

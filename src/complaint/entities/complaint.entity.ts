@@ -6,7 +6,6 @@ export type ComplaintDocument = Complaint & Document;
 
 @Schema({ collection: 'complaints', timestamps: true })
 export class Complaint {
-
   @Prop({
     required: true,
     default: () => uuidv4().replace(/-/g, '').substring(0, 10),
