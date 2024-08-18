@@ -1,23 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  UseInterceptors,
-  UploadedFile,
-  Param,
-  NotFoundException,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, Post, UseInterceptors, UploadedFile, Param, NotFoundException, Res } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { FileUpload } from './entities/file.entity';
 import { Response } from 'express';
-import {
-  ApiBody,
-  ApiConsumes,
-  ApiOperation,
-  ApiResponse,
-} from '@nestjs/swagger';
-import { File } from './entities/file.entity'; // Adjust the path according to your file structure
 
 @Controller('files')
 export class FilesController {
@@ -43,7 +29,7 @@ export class FilesController {
   @ApiResponse({
     status: 201,
     description: 'The file has been successfully uploaded.',
-    type: File,
+    type: FileUpload,
   })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
@@ -51,17 +37,15 @@ export class FilesController {
   }
 
   @Get(':id')
-  async getFile(@Param('id') id: string, @Res() res: Response) {
-    const file: any | null = await this.filesService.getFile(id);
-    if (!file) {
-      throw new NotFoundException('File not found');
+  async getFile(@Param('id') id: string, @Res() res: Response): Promise<void> {
+    try {
+      await this.filesService.getFile(id, res);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        res.status(404).send('File not found');
+      } else {
+        res.status(500).send('Internal Server Error');
+      }
     }
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename=${file.originalName}`,
-    );
-    res.setHeader('Content-Type', file.mimetype);
-    res.setHeader('Content-Length', file.size.toString());
-    res.send(file.data); // Using `res.send` to send the file data
   }
 }

@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type FileDocument = File & Document;
+export type FileDocument = FileUpload & Document;
 
-@Schema({ collection: 'file', timestamps: true })
-export class File {
+@Schema({ collection: 'fileUpload', timestamps: true })
+export class FileUpload {
   @Prop({ required: true })
   originalName: string;
 
@@ -14,8 +14,8 @@ export class File {
   @Prop({ required: true })
   size: number;
 
-  @Prop({ type: Buffer, required: true }) // Add this line
-  data: Buffer; // Field to store file data as a Buffer
+  @Prop()
+  id?: string;
 }
 
-export const FileSchema = SchemaFactory.createForClass(File);
+export const FileUploadSchema = SchemaFactory.createForClass(FileUpload);
