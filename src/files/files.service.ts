@@ -6,7 +6,7 @@ import { Readable } from 'stream';
 import { FileUpload, FileDocument } from './entities/file.entity';
 import { Response } from 'express';
 
-export interface DynamicField {
+export interface IDynamicField {
   name: string;
   label: string;
   type: 'boolean' | 'text' | 'email' | 'text-area' | 'array-text' | 'file'; // Restricting to valid types
@@ -54,7 +54,7 @@ export class FilesService {
               originalName: file.originalname,
               mimetype: file.mimetype,
               size: file.size,
-              id: uploadStream.id, // Ensure it's a string
+              id: uploadStream.id.toHexString(), // Ensure it's a string
             });
             resolve(newFile.save());
           });
@@ -68,30 +68,19 @@ export class FilesService {
 
   async getFile(id: string, res: Response): Promise<void> {
     try {
-      // Convert string ID to ObjectId
       const objectId = new ObjectId(id);
-
-      // Retrieve file metadata from the database
       const file = await this.fileModel.findOne({ id: objectId }).exec();
       if (!file) {
         throw new NotFoundException('File not found');
       }
-
-      // Stream the file from GridFS to the response
       const downloadStream = this.gridFSBucket.openDownloadStream(objectId);
-
-      // Set headers
       res.setHeader('Content-Type', file.mimetype);
       res.setHeader('Content-Disposition', `attachment; filename=${file.originalName}`);
-
-      // Stream file data to the response
       downloadStream.pipe(res);
-
       downloadStream.on('error', (err) => {
         this.logger.error(`Error streaming file: ${err.message}`);
         res.status(500).send('Error downloading file');
       });
-
       downloadStream.on('end', () => {
         this.logger.log('File downloaded successfully');
       });
@@ -101,10 +90,10 @@ export class FilesService {
     }
   }
 
-  async getMock(): Promise<DynamicField[]> {
+  async getMock(): Promise<IDynamicField[]> {
     this.logger.log('Getting mock data');
     try {
-      const dynamicField: DynamicField[] = [
+      const dynamicField: IDynamicField[] = [
         { name: 'anonymousComplaint', label: 'Anonymous Complaint', type: 'boolean', visible: true, default: true },
         { name: 'companyRelationship', label: 'Company Relationship', type: 'text', visible: false, default: true },
         { name: 'email', label: 'Email', type: 'email', visible: true, default: true },
