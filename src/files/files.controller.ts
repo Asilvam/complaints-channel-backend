@@ -1,10 +1,11 @@
 import { Controller, Get, Post, UseInterceptors, UploadedFile, Param, NotFoundException, Res } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { FileUpload } from './entities/file.entity';
 import { Response } from 'express';
 
+@ApiTags('Files Evidences upload - download')
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
@@ -57,6 +58,4 @@ export class FilesController {
       }
     }
   }
-
-
 }
