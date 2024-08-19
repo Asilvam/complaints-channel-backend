@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { DynamicFieldService } from './dynamic-field.service';
 import { CreateDynamicFieldDto } from './dto/create-dynamic-field.dto';
-import { UpdateDynamicFieldDto } from './dto/update-dynamic-field.dto';
+import { DynamicField } from './entities/dynamic-field.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Dynamics Fields')
 @Controller('dynamic-field')
 export class DynamicFieldController {
   constructor(private readonly dynamicFieldService: DynamicFieldService) {}
@@ -18,17 +20,12 @@ export class DynamicFieldController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dynamicFieldService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDynamicFieldDto: UpdateDynamicFieldDto) {
-    return this.dynamicFieldService.update(+id, updateDynamicFieldDto);
+  findOne(@Param('id') id: string): Promise<DynamicField> {
+    return this.dynamicFieldService.findOne(id);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.dynamicFieldService.remove(+id);
+    return this.dynamicFieldService.remove(id);
   }
 }
