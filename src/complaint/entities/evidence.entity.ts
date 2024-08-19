@@ -6,7 +6,6 @@ export type EvidenceDocument = Evidence & Document;
 
 @Schema({ collection: 'evidences', timestamps: true })
 export class Evidence {
-
   @Prop({
     required: true,
     default: () => uuidv4().replace(/-/g, '').substring(0, 10),

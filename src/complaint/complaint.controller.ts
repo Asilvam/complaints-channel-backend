@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
 import { ComplaintService } from './complaint.service';
 import { CreateComplaintDto } from './dto/create-complaint.dto';
 import { UpdateComplaintDto } from './dto/update-complaint.dto';
 import { CreateEvidenceDto } from './dto/create-evidence.dto';
+import { Complaint } from './entities/complaint.entity';
+import { Evidence } from './entities/evidence.entity';
 
 @Controller('complaint')
 export class ComplaintController {
@@ -18,23 +20,35 @@ export class ComplaintController {
     return this.complaintService.create(createComplaintDto);
   }
 
+  @Get('evidences')
+  findAllEvidences() {
+    return this.complaintService.findAllEvidences();
+  }
+
   @Get()
   findAll() {
     return this.complaintService.findAll();
   }
 
+  @Get('/evidence/:id')
+  async findOneEvidence(@Param('id') id: string): Promise<Evidence> {
+    return await this.complaintService.findOneEvidence(id);
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.complaintService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<Complaint> {
+    return await this.complaintService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateComplaintDto: UpdateComplaintDto) {
-    return this.complaintService.update(+id, updateComplaintDto);
+  async update(@Param('id') id: string, @Body() updateComplaintDto: UpdateComplaintDto) {
+    const complaint = await this.complaintService.update(id, updateComplaintDto);
+    return { idComplaint: complaint.idComplaint };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.complaintService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const complaint = await this.complaintService.remove(id);
+    return { idComplaint: complaint.idComplaint };
   }
 }

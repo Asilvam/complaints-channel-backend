@@ -39,6 +39,12 @@ export class Complaint {
 
   @Prop({ type: Map, of: String })
   metadata?: Map<string, string>;
+
+  @Prop({ default: false })
+  isDeleted: boolean;
+
+  @Prop({ type: Date })
+  deletedAt?: Date;
 }
 
 export const ComplaintSchema = SchemaFactory.createForClass(Complaint);
