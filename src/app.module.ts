@@ -6,6 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { ComplaintModule } from './complaint/complaint.module';
 import { DynamicFieldModule } from './dynamic-field/dynamic-field.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { DynamicFieldModule } from './dynamic-field/dynamic-field.module';
     }),
     ComplaintModule,
     DynamicFieldModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
