@@ -52,6 +52,14 @@ export class CreateComplaintDto {
   dateFiled?: Date;
 
   @ApiProperty({
+    description: 'Due date for the resolution of the complaint',
+    example: '2023-09-01T00:00:00Z',
+  })
+  @IsOptional()
+  @IsDateString()
+  dueDate?: Date;
+
+  @ApiProperty({
     description: 'Resolution details, if available',
     example: 'The case has been resolved amicably.',
   })
