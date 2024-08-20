@@ -31,6 +31,9 @@ export class Complaint {
   @Prop({ type: Date, default: Date.now })
   dateFiled: Date;
 
+  @Prop({ type: Date })
+  dueDate?: Date; // Added dueDate for resolution
+
   @Prop()
   resolution?: string;
 
