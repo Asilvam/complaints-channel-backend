@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ComplaintService } from './complaint.service';
 import { CreateComplaintDto } from './dto/create-complaint.dto';
 import { UpdateComplaintDto } from './dto/update-complaint.dto';
@@ -18,6 +18,11 @@ export class ComplaintController {
   @ApiResponse({ status: 400, description: 'Invalid input data' })
   createEvidence(@Body() createEvidenceDto: CreateEvidenceDto) {
     return this.complaintService.createEvidence(createEvidenceDto);
+  }
+
+  @Post('validate')
+  validateComplaintPass(@Body('id') id: string, @Body('pass') pass: string){
+    return this.complaintService.validateComplaintPass( id, pass)
   }
 
   @Post()

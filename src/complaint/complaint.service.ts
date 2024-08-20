@@ -21,7 +21,7 @@ export class ComplaintService {
       this.logger.log('Creating new register');
       const newComplaint = new this.complaintModel(createComplaintDto);
       const savedComplaint = await newComplaint.save();
-      return { idComplaint: savedComplaint.idComplaint };
+      return { idComplaint: savedComplaint.idComplaint, passComplaint: savedComplaint.passComplaint };
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Error creating complaint');
@@ -104,4 +104,15 @@ export class ComplaintService {
     }
     return complaint;
   }
+
+  async validateComplaintPass(idComplaint: string, passComplaint: string): Promise<boolean> {
+    const complaint = await this.findOne(idComplaint);
+
+    if (!complaint) {
+      throw new NotFoundException(`Complaint with id ${idComplaint} not found`);
+    }
+
+    return complaint.passComplaint === passComplaint;
+  }
+
 }
