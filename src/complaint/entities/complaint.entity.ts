@@ -13,6 +13,12 @@ export class Complaint {
   })
   idComplaint: string;
 
+  @Prop({
+    required: true,
+    default: () => uuidv4().replace(/-/g, '').substring(0, 6),
+  })
+  passComplaint: string;
+
   @Prop({ required: true })
   title: string;
 
