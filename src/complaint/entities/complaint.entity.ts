@@ -50,7 +50,7 @@ export class Complaint {
   assignedTo?: string;
 
   @Prop({ type: Map, of: String })
-  metadata?: Map<string, string>;
+  metadata?: Record<string, string>;
 
   @Prop({ default: false })
   isDeleted: boolean;
