@@ -30,7 +30,15 @@ export class FilesController {
   @ApiResponse({
     status: 201,
     description: 'The file has been successfully uploaded.',
-    type: FileUpload,
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          example: '66c1684ac43e8a10e7fca6c0',
+        },
+      },
+    },
   })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   async uploadFile(@UploadedFile() file: Express.Multer.File) {

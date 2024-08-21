@@ -114,5 +114,4 @@ export class ComplaintService {
 
     return complaint.passComplaint === passComplaint;
   }
-
 }
