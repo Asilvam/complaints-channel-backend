@@ -1,7 +1,7 @@
 import { Controller, Get, Post, UseInterceptors, UploadedFile, Param, NotFoundException, Res } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { FileUpload } from './entities/file.entity';
 import { Response } from 'express';
 
@@ -38,6 +38,15 @@ export class FilesController {
   }
 
   @Get('/mock')
+  @ApiOperation({ summary: 'Get mock data' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully retrieved mock data',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
   async getMock() {
     try {
       return this.filesService.getMock();
@@ -47,6 +56,25 @@ export class FilesController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Retrieve a file by ID' })
+  @ApiParam({
+    name: 'id',
+    description: 'The unique identifier of the file',
+    required: true,
+    example: '60b6c5c4f73e8b3a64d1598b',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'File retrieved successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'File not found',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
   async getFile(@Param('id') id: string, @Res() res: Response): Promise<void> {
     try {
       await this.filesService.getFile(id, res);

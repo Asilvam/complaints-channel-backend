@@ -5,7 +5,7 @@ import { UpdateComplaintDto } from './dto/update-complaint.dto';
 import { CreateEvidenceDto } from './dto/create-evidence.dto';
 import { Complaint } from './entities/complaint.entity';
 import { Evidence } from './entities/evidence.entity';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Complaints')
 @Controller('complaint')
@@ -21,7 +21,25 @@ export class ComplaintController {
   }
 
   @Post('validate')
-  validateComplaintPass(@Body('id') id: string, @Body('pass') pass: string){
+  @ApiOperation({ summary: 'Validate complaint ID and password' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          description: 'Complaint ID',
+          example: 'b0d2fa7d281',
+        },
+        pass: {
+          type: 'string',
+          description: 'Complaint password',
+          example: 'pass123',
+        },
+      },
+    },
+  })
+  validateComplaintPass(@Body('id') id: string, @Body('pass') pass: string) {
     return this.complaintService.validateComplaintPass( id, pass)
   }
 
@@ -66,12 +84,14 @@ export class ComplaintController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Patch a field complaint by idComplaint' })
   async update(@Param('id') id: string, @Body() updateComplaintDto: UpdateComplaintDto) {
     const complaint = await this.complaintService.update(id, updateComplaintDto);
     return { idComplaint: complaint.idComplaint };
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Remove a complaint by idComplaint' })
   async remove(@Param('id') id: string) {
     const complaint = await this.complaintService.remove(id);
     return { idComplaint: complaint.idComplaint };

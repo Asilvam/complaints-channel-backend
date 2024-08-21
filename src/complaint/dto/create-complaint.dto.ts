@@ -3,14 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateComplaintDto {
   @ApiProperty({
-    description: 'Title of the complaint',
-    example: 'Harassment in the workplace',
-  })
-  @IsNotEmpty()
-  @IsString()
-  title: string;
-
-  @ApiProperty({
     description: 'Detailed description of the complaint',
     example: 'The complainant was harassed by the defendant in the office.',
   })
@@ -19,20 +11,36 @@ export class CreateComplaintDto {
   description: string;
 
   @ApiProperty({
-    description: 'name of the complainant',
+    description: 'Full name of the complainant',
     example: 'Benita Ruiz',
   })
   @IsNotEmpty()
   @IsString()
-  complainant: string;
+  fullNameComplainant: string;
 
   @ApiProperty({
-    description: 'name of the defendant',
+    description: 'Document number of the complainant',
+    example: 'A12345678-9',
+  })
+  @IsNotEmpty()
+  @IsString()
+  documentNumber: string;
+
+  @ApiProperty({
+    description: 'Email address of the complainant',
+    example: 'benita.ruiz@example.com',
+  })
+  @IsNotEmpty()
+  @IsString()
+  emailComplainant: string;
+
+  @ApiProperty({
+    description: 'Full name of the defendant',
     example: 'Ronald Perez',
   })
   @IsNotEmpty()
   @IsString()
-  defendant: string;
+  fullNameDefendant: string;
 
   @ApiProperty({
     description: 'Current status of the complaint',
