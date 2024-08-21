@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from "@nestjs/common";
 import { ComplaintService } from './complaint.service';
 import { CreateComplaintDto } from './dto/create-complaint.dto';
 import { UpdateComplaintDto } from './dto/update-complaint.dto';
 import { CreateEvidenceDto } from './dto/create-evidence.dto';
 import { Complaint } from './entities/complaint.entity';
 import { Evidence } from './entities/evidence.entity';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Complaints')
 @Controller('complaint')
@@ -21,6 +21,7 @@ export class ComplaintController {
   }
 
   @Post('validate')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Validate complaint ID and password' })
   @ApiBody({
     schema: {
@@ -37,10 +38,31 @@ export class ComplaintController {
           example: 'pass123',
         },
       },
+      required: ['id', 'pass'],
     },
   })
+  @ApiResponse({
+    status: 200,
+    description: 'Validation successful. Returns true if the ID and password match, false otherwise.',
+    schema: {
+      type: 'boolean',
+      example: true,
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Complaint with the provided ID not found.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid request parameters.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error.',
+  })
   validateComplaintPass(@Body('id') id: string, @Body('pass') pass: string) {
-    return this.complaintService.validateComplaintPass( id, pass)
+    return this.complaintService.validateComplaintPass(id, pass);
   }
 
   @Post()
