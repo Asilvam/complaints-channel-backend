@@ -20,16 +20,19 @@ export class Complaint {
   passComplaint: string;
 
   @Prop({ required: true })
-  title: string;
+  fullNameComplainant: string;
+
+  @Prop({ required: true })
+  documentNumber: string;
+
+  @Prop({ required: true })
+  emailComplainant: string;
 
   @Prop({ required: true })
   description: string;
 
   @Prop({ required: true })
-  complainant: string;
-
-  @Prop({ required: true })
-  defendant: string;
+  fullNameDefendant: string;
 
   @Prop({ required: true, enum: ['open', 'in_progress', 'resolved', 'closed'], default: 'open' })
   status: string;
