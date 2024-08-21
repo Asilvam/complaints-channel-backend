@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch } from "@nestjs/common";
 import { DynamicFieldService } from './dynamic-field.service';
 import { CreateDynamicFieldDto } from './dto/create-dynamic-field.dto';
 import { DynamicField } from './entities/dynamic-field.entity';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { UpdateDynamicFieldDto } from './dto/update-dynamic-field.dto';
 
 @ApiTags('Dynamics Fields')
 @Controller('dynamic-field')
@@ -40,5 +41,11 @@ export class DynamicFieldController {
   @ApiResponse({ status: 404, description: 'Dynamic field not found' })
   remove(@Param('id') id: string) {
     return this.dynamicFieldService.remove(id);
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Patch a field dynamic-field by idDynamicField' })
+  async update(@Param('id') id: string, @Body() updateDynamicFieldDto: UpdateDynamicFieldDto) {
+    return this.dynamicFieldService.update(id, updateDynamicFieldDto);
   }
 }

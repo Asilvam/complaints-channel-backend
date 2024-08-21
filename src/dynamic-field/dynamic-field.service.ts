@@ -3,6 +3,7 @@ import { CreateDynamicFieldDto } from './dto/create-dynamic-field.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DynamicField, DynamicFieldDocument } from './entities/dynamic-field.entity';
+import { UpdateDynamicFieldDto } from "./dto/update-dynamic-field.dto";
 
 @Injectable()
 export class DynamicFieldService {
@@ -47,5 +48,17 @@ export class DynamicFieldService {
       throw new NotFoundException(`Complaint with ID ${id} not found`);
     }
     return { message: `Complaint with ID ${id} has been removed` };
+  }
+
+  async update(idDynamicField: string, updateDynamicFieldDto: UpdateDynamicFieldDto) {
+    const updatedDynamicField = await this.dynamicFieldModel.findOneAndUpdate(
+      { idDynamicField },
+      updateDynamicFieldDto,
+      { new: true },
+    );
+    if (!updatedDynamicField) {
+      throw new NotFoundException(`Dynamic-Field  with ID ${idDynamicField} not found`);
+    }
+    return updatedDynamicField;
   }
 }
