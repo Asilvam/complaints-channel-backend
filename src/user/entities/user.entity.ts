@@ -22,7 +22,7 @@ export class User {
   @Prop({ required: false })
   mfaSecret?: string; // Optional field to store the MFA secret
 
-  @Prop({ required: true, type: String, enum: ['commission', 'administrator'] })
+  @Prop({ required: true, type: Array, enum: ['commission', 'administrator'] })
   role: string[];
 
   @Prop({ default: false })
