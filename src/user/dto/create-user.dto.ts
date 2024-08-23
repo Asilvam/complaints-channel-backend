@@ -7,7 +7,7 @@ import {
   IsArray,
   ArrayNotEmpty,
   ArrayMinSize, ArrayMaxSize
-} from "class-validator";
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {

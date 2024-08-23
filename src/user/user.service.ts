@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException
+} from "@nestjs/common";
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './entities/user.entity';
@@ -33,8 +39,13 @@ export class UserService {
     return newRegister.save();
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    this.logger.log('Finding all users');
+    const users = await this.userModel.find().exec();
+    if (!users) {
+      throw new InternalServerErrorException('Failed to retrieve users');
+    }
+    return users;
   }
 
   async findOne(idUser: string) {
