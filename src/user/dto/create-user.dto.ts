@@ -1,4 +1,13 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, IsEnum } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsEnum,
+  IsArray,
+  ArrayNotEmpty,
+  ArrayMinSize, ArrayMaxSize
+} from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -27,11 +36,16 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Role of the user in the system, defining their permissions.',
-    example: 'administrator',
+    example: ['administrator'],
     enum: ['commission', 'administrator'],
+    isArray: true,
   })
   @IsNotEmpty()
-  @IsEnum(['commission', 'administrator'])
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayMinSize(1) // Ensure at least one role is provided
+  @ArrayMaxSize(2) // Optional: Limit to a maximum number of roles
+  @IsEnum(['commission', 'administrator'], { each: true })
   role: string[];
 
   @ApiPropertyOptional({
