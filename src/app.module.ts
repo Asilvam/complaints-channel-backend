@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ComplaintModule } from './complaint/complaint.module';
 import { DynamicFieldModule } from './dynamic-field/dynamic-field.module';
 import { EmailModule } from './email/email.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { EmailModule } from './email/email.module';
     ComplaintModule,
     DynamicFieldModule,
     EmailModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

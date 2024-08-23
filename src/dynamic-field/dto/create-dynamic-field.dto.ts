@@ -2,7 +2,6 @@ import { IsString, IsBoolean, IsIn } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateDynamicFieldDto {
-
   @ApiProperty({
     description: 'Name of the dynamic field',
     example: 'anonymousComplaint',

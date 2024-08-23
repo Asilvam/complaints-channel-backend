@@ -7,7 +7,6 @@ export type DynamicFieldDocument = DynamicField & Document;
 
 @Schema({ collection: 'dynamic_fields', timestamps: true })
 export class DynamicField {
-
   @ApiProperty({
     description: 'Unique identifier for the dynamic field',
     example: 'abc123def4',
