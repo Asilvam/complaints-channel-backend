@@ -13,7 +13,6 @@ async function bootstrap() {
   app.useLogger(new Logger());
   app.enableCors({
     origin: '*', // Allow requests from this origin
-    methods: ['GET', 'POST'], // Allow only specified HTTP methods
     preflightContinue: false,
     allowedHeaders: ['Content-Type', 'Authorization'], // Allow only specified headers
     credentials: true,
